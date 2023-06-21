@@ -1,7 +1,7 @@
 ## Live at @https://iiitl-resume-portal.vercel.app
 
 
-#   A Complete Solution for Placement Season (IIITL-Resume-Portal) 
+#   IIITL-Resume-Portal
 
 
 # A MERN Stack Website
