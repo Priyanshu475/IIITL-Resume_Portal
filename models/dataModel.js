@@ -3,6 +3,12 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const dataSchema = new Schema({
+  FullName: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 100
+  },
   Rollno: {
     type: String,
     required: true

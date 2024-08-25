@@ -6,6 +6,7 @@ const DataForm = () => {
   const { dispatch } = useDatasContext()
   const { user } = useAuthContext()
 
+  const [FullName, setFullName] = useState('')
   const [Rollno, setRollno] = useState('')
   const [BatchYear, setBatchYear] = useState('2021')
   const [Branch, setBranch] = useState('Computer Science and Business')
@@ -23,7 +24,7 @@ const DataForm = () => {
       return;
     }
   
-    const data = { Rollno, BatchYear, Branch, ResumeLink, CGPA, ActiveBacklogs };
+    const data = { FullName, Rollno, BatchYear, Branch, ResumeLink, CGPA, ActiveBacklogs };
   
     // Check if the user already has datas
     const existingDatasResponse = await fetch('/api/data', {
@@ -68,6 +69,14 @@ const DataForm = () => {
   return (
     <form className="create" onSubmit={handleSubmit}>
       <h4><center>Resume Upload</center></h4>
+      <center><label>Full Name:</label></center>
+      <center><input 
+        type="text"
+        onChange={(e) => setFullName(e.target.value)}
+        value={FullName}
+        className={emptyFields.includes('FullName') ? 'error' : ''} 
+        placeholder="Enter your full name"
+      /></center>
       <center><label>Enter Your IIIT-Lucknow Roll No :</label></center>
       <center><input 
         type="text"

@@ -22,9 +22,13 @@ const getDatas = async (req, res) => {
 
 // create new data
 const createData = async (req, res) => {
-  const { Rollno, BatchYear, Branch, ResumeLink, CGPA, ActiveBacklogs } = req.body
+  const { FullName, Rollno, BatchYear, Branch, ResumeLink, CGPA, ActiveBacklogs } = req.body
 
   let emptyFields = []
+
+  if (!FullName) {
+    emptyFields.push('FullName')
+  }
 
   if (!Rollno) {
     emptyFields.push('Rollno')
@@ -64,7 +68,8 @@ const createData = async (req, res) => {
   try {
     const user_id = req.user._id
     const data = await Data.create({
-      Rollno, 
+      FullName,
+      Rollno,
       BatchYear, 
       Branch, 
       ResumeLink, 

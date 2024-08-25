@@ -28,9 +28,12 @@ const DataDetails = ({ data }) => {
 
   const renderDataDetails = () => (
     <div className="data-details">
-      <h4>{data.Rollno}</h4>
+      <h4>{data.FullName}</h4>
+      <h5>{data.Rollno}</h5>
       <p><strong>Batch Year:</strong> {data.BatchYear}</p>
       <p><strong>Branch:</strong> {data.Branch}</p>
+      <p><strong>CGPA:</strong> {data.CGPA}</p>
+      <p><strong>Active Backlog:</strong> {data.ActiveBacklogs}</p>
       <a href={data.ResumeLink} target="_blank" rel="noreferrer">Resume Link</a>
       {user.role !== 'admin' && (
         <p>{formatDistanceToNow(new Date(data.createdAt), { addSuffix: true })}</p>
