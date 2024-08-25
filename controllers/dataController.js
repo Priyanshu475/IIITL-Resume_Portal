@@ -1,42 +1,77 @@
 const Data = require('../models/dataModel')
 const mongoose = require('mongoose')
 
-// get all datas
 const getDatas = async (req, res) => {
-  const user_id = req.user._id
+  try {
+    const user = req.user;
+    let datas;
+    if (user.role === 'admin') {
+      datas = await Data.find().populate('user_id');
+    } else {
+      datas = await Data.find({ user_id: user._id })
+        .sort({ createdAt: -1 });
+      console.log('User Data:', datas); // Log the data fetched for non-admin users
+    }
 
-  const datas = await Data.find({user_id}).sort({createdAt: -1})
-
-  res.status(200).json(datas)
-}
-
+    res.status(200).json(datas);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).json({ error: 'Failed to fetch data. Please try again later.' });
+  }
+};
 
 // create new data
 const createData = async (req, res) => {
-  const {Rollno, BatchYear, Branch,ResumeLink} = req.body
+  const { Rollno, BatchYear, Branch, ResumeLink, CGPA, ActiveBacklogs } = req.body
 
   let emptyFields = []
 
-  if(!Rollno) {
+  if (!Rollno) {
     emptyFields.push('Rollno')
   }
-  if(!BatchYear) {
+  if (!BatchYear) {
     emptyFields.push('BatchYear')
   }
-  if(!Branch) {
+  if (!Branch) {
     emptyFields.push('Branch')
   }
-  if(!ResumeLink) {
+  if (!ResumeLink) {
     emptyFields.push('ResumeLink')
   }
-  if(emptyFields.length > 0) {
+  if (CGPA === undefined || CGPA === '') {
+    emptyFields.push('CGPA')
+  }
+  if (ActiveBacklogs === undefined || ActiveBacklogs === '') {
+    emptyFields.push('ActiveBacklogs')
+  }
+  if (emptyFields.length > 0) {
     return res.status(400).json({ error: 'Please fill in all the fields', emptyFields })
+  }
+
+  // Validate CGPA
+  const cgpaValue = parseFloat(CGPA)
+  if (isNaN(cgpaValue) || cgpaValue < 0 || cgpaValue > 10 || Number.isInteger(cgpaValue)) {
+    return res.status(400).json({ error: 'CGPA must be a decimal number between 0 and 10' })
+  }
+
+  // Validate ActiveBacklogs
+  const activeBacklogsValue = parseInt(ActiveBacklogs)
+  if (isNaN(activeBacklogsValue) || activeBacklogsValue < 0 || !Number.isInteger(activeBacklogsValue)) {
+    return res.status(400).json({ error: 'Active Backlogs must be a non-negative integer' })
   }
 
   // add doc to db
   try {
     const user_id = req.user._id
-    const data = await Data.create({Rollno, BatchYear, Branch, ResumeLink,user_id})
+    const data = await Data.create({
+      Rollno, 
+      BatchYear, 
+      Branch, 
+      ResumeLink, 
+      CGPA: cgpaValue, 
+      ActiveBacklogs: activeBacklogsValue,
+      user_id
+    })
     res.status(200).json(data)
   } catch (error) {
     res.status(400).json({error: error.message})
@@ -61,20 +96,8 @@ const deleteData = async (req, res) => {
 }
 
 
-const getallDatas = async (req, res) => {
-    try {
-      const datas = await Data.find().populate('user_id');
-  
-      res.status(200).json(datas);
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch datas from the database' });
-    }
-  };
-
-
 module.exports = {
   getDatas,
   createData,
   deleteData,
-  getallDatas
 }

@@ -9,7 +9,9 @@ const DataForm = () => {
   const [Rollno, setRollno] = useState('')
   const [BatchYear, setBatchYear] = useState('2021')
   const [Branch, setBranch] = useState('Computer Science and Business')
-  const[ResumeLink,setResumeLink]=useState('')
+  const [ResumeLink, setResumeLink] = useState('')
+  const [CGPA, setCGPA] = useState('')
+  const [ActiveBacklogs, setActiveBacklogs] = useState(0)
   const [error, setError] = useState(null)
   const [emptyFields, setEmptyFields] = useState([])
 
@@ -21,7 +23,7 @@ const DataForm = () => {
       return;
     }
   
-    const data = { Rollno, BatchYear, Branch,ResumeLink};
+    const data = { Rollno, BatchYear, Branch, ResumeLink, CGPA, ActiveBacklogs };
   
     // Check if the user already has datas
     const existingDatasResponse = await fetch('/api/data', {
@@ -55,6 +57,8 @@ const DataForm = () => {
       setBatchYear('');
       setBranch('');
       setResumeLink('');
+      setCGPA('');
+      setActiveBacklogs(0);
       setError(null);
       setEmptyFields([]);
       dispatch({ type: 'CREATE_DATA', payload: json });
@@ -72,15 +76,15 @@ const DataForm = () => {
         className={emptyFields.includes('Rollno') ? 'error' : ''} placeholder="i.e. LCB2021003"
       /></center>
 
-<center><label>Enter Your Batch Year :</label></center>
+      <center><label>Enter Your Batch Year :</label></center>
       <center><select
         type="number"
         onChange={(e) => setBatchYear(e.target.value)}
         value={BatchYear}
         className={emptyFields.includes('load') ? 'error' : ''}>
         <option value="2021">2021</option>
-        <option value="2020">2020</option>
-        </select></center>
+        <option value="2020">2022</option>
+      </select></center>
 
       <center><label>Branch :</label></center>
       <center><select
@@ -93,13 +97,34 @@ const DataForm = () => {
           <option value="Information Technology">Information Technology</option>
           <option value="Computer Science and Artificial Intelligence">Computer Science and Artificial Intelligence</option>
           <option value="M.Tech in Computer Science">M.Tech in Computer Science</option>
-        </select></center>
-     <center><label>Resume Link :</label></center>
-     <center><label>Disclaimer: Should adhere to the format provided in the link below:</label></center>
-     <center><span>Don't have one ? Make one from this: </span><a href="https://www.overleaf.com/latex/templates/software-engineer-resume/gqxmqsvsbdjf">Link</a></center>
-     <center><input 
+      </select></center>
+
+      <center><label>CGPA :</label></center>
+      <center><input 
+        type="number"
+        step="0.01"
+        onChange={(e) => setCGPA(e.target.value)}
+        value={CGPA}
+        className={emptyFields.includes('CGPA') ? 'error' : ''} 
+        placeholder="Enter your CGPA"
+      /></center>
+
+      <center><label>Active Backlogs :</label></center>
+      <center><input 
+        type="number"
+        min="0"
+        onChange={(e) => setActiveBacklogs(parseInt(e.target.value))}
+        value={ActiveBacklogs}
+        className={emptyFields.includes('ActiveBacklogs') ? 'error' : ''} 
+        placeholder="Enter number of active backlogs"
+      /></center>
+
+      <center><label>Resume Link :</label></center>
+      <center><label>Disclaimer: Should adhere to the format provided in the link below:</label></center>
+      <center><span>Don't have one ? Make one from this: </span><a href="https://www.overleaf.com/latex/templates/software-engineer-resume/gqxmqsvsbdjf">Link</a></center>
+      <center><input 
         type="text"
-        onChange={(e) =>setResumeLink(e.target.value)}
+        onChange={(e) => setResumeLink(e.target.value)}
         value={ResumeLink}
         className={emptyFields.includes('ResumeLink') ? 'error' : ''} placeholder="i.e. https://drive.google.com/..."
       /></center>

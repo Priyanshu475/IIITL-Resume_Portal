@@ -21,21 +21,21 @@ function App() {
         <div className="pages">
           <Routes>
             <Route 
-              path="/user" 
+              path="/dashboard" 
               element={user ? <Home /> : <Navigate to="/" />} 
             />
             <Route 
               path="/login" 
-              element={!user ? <Login /> : <Navigate to="/user" />} 
+              element={!user ? <Login /> : <Navigate to="/dashboard" />} 
             />
             <Route 
               path="/signup" 
-              element={!user ? <Signup /> : <Navigate to="/user" />} 
+              element={!user ? <Signup /> : <Navigate to="/dashboard" />} 
             />
             <Route path="/" 
             element={<Main/> }
             />
-            <Route path='/user/Notification' 
+            <Route path='/dashboard/Notification' 
             element={user ? <NotifiCreate /> : <Navigate to="/" />} />
           </Routes>
         </div>

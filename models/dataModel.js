@@ -15,9 +15,30 @@ const dataSchema = new Schema({
     type: Number,
     required: true
   },
-  ResumeLink:{
+  ResumeLink: {
     type: String,
     required: true
+  },
+  CGPA: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 10,
+    validate: {
+      validator: function(v) {
+        return v % 1 !== 0; // Ensures the value is a decimal
+      },
+      message: props => `${props.value} is not a valid CGPA. It must be a decimal number.`
+    }
+  },
+  ActiveBacklogs: {
+    type: Number,
+    required: true,
+    min: 0,
+    validate: {
+      validator: Number.isInteger,
+      message: '{VALUE} is not an integer value'
+    }
   },
   user_id: {
     type: String,

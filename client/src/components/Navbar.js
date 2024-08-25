@@ -28,9 +28,9 @@ const Navbar = () => {
   <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
   <ul class="menu">
     <li><Link to='/'>Home</Link></li>
-    <li><Link to='/user'>Back to Dashboard</Link></li>
-    <li><Link to='/user/Notification'>Notifications</Link></li>
-    <li><Link to='/user'><button className='Logout' onClick={handleClick}>Logout</button></Link></li>
+    <li><Link to='/dashboard'>Back to Dashboard</Link></li>
+    <li><Link to='/dashboard/Notification'>Notifications</Link></li>
+    <li><Link to='/dashboard'><button className='Logout' onClick={handleClick}>Logout</button></Link></li>
   </ul>
   </div>
     )}
