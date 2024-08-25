@@ -12,7 +12,6 @@ const requireAuth = require('../middleware/requireAuth')
 
   router.get('/',NotifiController.Notification_getallNotifis);
   
-
   // POST a new Notifications
   router.post('/create', NotifiController.Notification_create_post)
   

@@ -4,23 +4,18 @@ import NotifiList from "../components/Notifications_list";
 
 
 const Notification = () => {
-    const { user } = useAuthContext()
-    if(user.role === 'admin'){
-    return ( 
+    const { user } = useAuthContext();
+    
+    if (!user) {
+        return <div>Loading...</div>;
+    }
+
+    return (
         <div>
-        <NotifiCreate/>
-        <NotifiList/>
+            {user.role === 'admin' && <NotifiCreate />}
+            <NotifiList />
         </div>
-        
-     );
-    }
-    else{
-        return(
-            <div>
-            <NotifiList/>
-            </div>
-        )
-    }
-}
- 
+    );
+};
+
 export default Notification;
